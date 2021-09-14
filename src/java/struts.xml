@@ -1,0 +1,73 @@
+<!DOCTYPE struts PUBLIC
+ "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+ "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+    <package name="example" extends="struts-default">
+        <action name="Home" class="MainAction">
+            <result>/index.jsp</result>
+        </action>
+        <action name="ShowName" method="showName"
+            class="MainAction">
+            <result>/name.jsp</result>
+        </action>
+        <action name="ShowError">
+            <result>/err_page.jsp</result>
+        </action>
+        <action name="ListGalleries" class="LibList" method="list">
+            <result>/libList.jsp</result>
+            <result name="error">/err_page.jsp</result>
+        </action>
+        <action name="NewGallery" class="LibList" method="newGallery">
+            <result name="input">/gallery_new.jsp</result>
+            <result name="error">/err_page.jsp</result>
+        </action>
+        <action name="SaveGallery" class="LibList" method="save">
+            <result name="success" type="redirect-action">ListGalleries</result>
+            <result name="input">/gallery_new.jsp</result>
+            <result name="error">/err_page.jsp</result>
+        </action>
+        <action name="ShowGallery" class="LibList" method="show">
+            <param name="id">{1}</param>
+            <result name="success">/show_gallery.jsp</result>
+            <result name="error">/err_page.jsp</result>
+        </action>
+        <action name="ShowImage" class="LibList" method="showImage">
+            <param name="id">{1}</param>
+            <param name="img_name">{2}</param>
+            <result name="success" type="stream">
+                <param name="contentType">image/jpeg</param>
+            </result>
+            <result name="error">/err_page.jsp</result>
+        </action>
+        <action name="DelImage" class="LibList" method="delImage">
+            <param name="id">{1}</param>
+            <param name="img_name">{2}</param>
+            <result name="success" type="redirect-action">
+                <param name="actionName">ShowGallery</param>
+                <param name="parse">true</param>
+                <param name="id">${gallery.getTitle()}</param>
+            </result>
+            <result name="error">/err_page.jsp</result>
+        </action>
+        <action name="AddImage" class="LibList" method="addImage">
+            <param name="id">{1}</param>
+            <result name="input">/add_image.jsp</result>
+            <result name="success" type="redirect-action">
+                <param name="actionName">ShowGallery</param>
+                <param name="parse">true</param>
+                <param name="id">${gallery.getTitle()}</param>
+            </result>
+            <result name="error">/err_page.jsp</result>
+        </action>
+        <action name="EditDescription" class="LibList" method="edit">
+            <param name="id">{1}</param>
+            <result name="input">/edit_gallery.jsp</result>
+            <result name="success" type="redirect-action">
+                <param name="actionName">ShowGallery</param>
+                <param name="parse">true</param>
+                <param name="id">${gallery.getTitle()}</param>
+            </result>
+            <result name="error">/err_page.jsp</result>
+        </action>
+    </package>
+</struts>
